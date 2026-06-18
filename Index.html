@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viking Roll | Solana Meme Coin</title>
+    <title>Viking Row | Solana Meme Coin</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Comic Neue', cursive;
-            /* Fallback gradient, will be replaced with token image via JS */
+            /* Fallback gradient, replaced with token image via JS */
             background: linear-gradient(135deg, #9945FF, #14F195);
             background-size: 400% 400%;
             animation: gradientBG 10s ease infinite;
@@ -93,9 +92,9 @@
     <div class="container">
         <!-- Hero Section -->
         <section class="hero">
-            <img id="tokenImage" src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png" alt="Token Logo">
-            <h1 style="font-size: 3rem;">🚀 Viking Roll 🚀</h1>
-            <p style="font-size: 1.5rem;">The meme that took over Solana – now unstoppable!</p>
+            <img id="tokenImage" src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png" alt="Viking Row Logo">
+            <h1 style="font-size: 3rem;">🚀 Viking Row 🚀</h1>
+            <p style="font-size: 1.5rem;">The Viking meme that conquered Solana!</p>
             <a href="#" class="btn" id="buyPumpFunBtn">🎯 Buy on Pump.fun</a>
             <a href="#" class="btn yellow" id="buyJupiterBtn">🪐 Trade on Jupiter</a>
             <a href="https://phantom.com/tokens/solana/BWkYbhJxW4ZwECKoTFuZBcbVJqEECHJRGsLWsHJepump?referralId=fhlpmtpuw9s" 
@@ -106,9 +105,7 @@
         <section>
             <h2>📖 What is <span id="tokenSymbol">$VIKING</span>?</h2>
             <p style="font-size: 1.2rem;">
-                Viking Row $ROW is the memecoin of the viral World Cup rowing movement.
-
-One people. One boat. One send,The wildest meme coin on Solana, born from the community and fired straight from Pump.fun. No utility, no promises – just pure dopamine and degenerate energy.
+                Viking Row is the wildest meme coin on Solana, born from the community and fired straight from Pump.fun. No utility, no promises – just pure Viking energy and degenerate raids.
             </p>
         </section>
 
@@ -135,7 +132,7 @@ One people. One boat. One send,The wildest meme coin on Solana, born from the co
                     BWkYbhJxW4ZwECKoTFuZBcbVJqEECHJRGsLWsHJepump
                 </div>
                 <p>4️⃣ Swap SOL for $<span id="tokenSymbol3">VIKING</span></p>
-                <p>5️⃣ HODL &amp; spread the memes 🚀</p>
+                <p>5️⃣ HODL &amp; raid the memes 🚀</p>
             </div>
         </section>
 
@@ -152,10 +149,10 @@ One people. One boat. One send,The wildest meme coin on Solana, born from the co
         <!-- Roadmap -->
         <section>
             <h2>🗺️ Roadmap</h2>
-            <div class="roadmap-phase">✅ Phase 1: Fair launch on Pump.fun, meme takeover</div>
-            <div class="roadmap-phase">🚧 Phase 2: Community growth, viral TikTok/Reels</div>
-            <div class="roadmap-phase">🔮 Phase 3: CEX listings, NFT collection</div>
-            <div class="roadmap-phase">🌕 Phase 4: Moon mission (Billboard on the moon?)</div>
+            <div class="roadmap-phase">✅ Phase 1: Fair launch on Pump.fun, Viking raid</div>
+            <div class="roadmap-phase">🚧 Phase 2: Community growth, TikTok longships</div>
+            <div class="roadmap-phase">🔮 Phase 3: CEX listings, NFT loot</div>
+            <div class="roadmap-phase">🌕 Phase 4: Valhalla (moon) mission</div>
         </section>
 
         <!-- Community (YOUR REAL LINKS) -->
@@ -205,16 +202,10 @@ One people. One boat. One send,The wildest meme coin on Solana, born from the co
                 document.body.style.backgroundPosition = "center";
                 document.body.style.backgroundAttachment = "fixed";
 
-                // Symbol from API (e.g., VIKING, ROLL, etc.)
+                // Symbol from API (e.g., VIKING, ROW, etc.)
                 const symbol = baseToken.symbol;
-                // Update all symbol placeholders
                 document.querySelectorAll("#tokenSymbol, #tokenSymbol2, #tokenSymbol3").forEach(el => el.innerText = symbol);
-                // Update page title
                 document.title = symbol + " | Solana Meme Coin";
-
-                // Keep the hero name as "Viking Roll" regardless of API (already set in HTML)
-                // If you want the API name to override, uncomment the line below:
-                // document.querySelector(".hero h1").innerHTML = "🚀 " + baseToken.name + " 🚀";
 
                 // Set chart
                 document.getElementById("dexscreenerChart").src = 
@@ -224,8 +215,8 @@ One people. One boat. One send,The wildest meme coin on Solana, born from the co
                 document.getElementById("buyJupiterBtn").href = `https://jup.ag/swap/SOL-${TOKEN_MINT}`;
             } catch (error) {
                 console.error(error);
-                // Fallback: keep "Viking Roll" as name (already in HTML), symbol fallback to "$VIKING"
-                document.title = "Viking Roll | Solana Meme Coin";
+                // Fallback: keep "Viking Row" name, use generic background
+                document.title = "Viking Row | Solana Meme Coin";
                 document.getElementById("dexscreenerChart").src = 
                     "https://dexscreener.com/solana?embed=1&theme=dark&info=0";
             }
@@ -239,24 +230,6 @@ One people. One boat. One send,The wildest meme coin on Solana, born from the co
         // --- Copy mint address ---
         document.getElementById("contractAddress").addEventListener("click", function() {
             navigator.clipboard.writeText(TOKEN_MINT).then(() => alert("Mint address copied!"));
-        });
-
-        // --- Phantom wallet connection (browser extension) ---
-        document.getElementById("connectPhantomBtn").addEventListener("click", async () => {
-            const { solana } = window;
-            if (!solana || !solana.isPhantom) {
-                alert("Phantom wallet not found! Please install it from phantom.app");
-                return;
-            }
-            try {
-                await solana.connect();
-                const publicKey = solana.publicKey.toString();
-                document.getElementById("walletAddress").innerText = 
-                    `Connected: ${publicKey.slice(0,4)}...${publicKey.slice(-4)}`;
-            } catch (err) {
-                console.error(err);
-                alert("Connection failed or rejected.");
-            }
         });
 
         loadTokenInfo();
