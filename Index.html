@@ -1085,5 +1085,194 @@
         </div>
     </main>
 
+    <script>
+        // App Configuration
+        const API_KEY = 'YOUR_GOOGLE_AI_API_KEY';
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
+
+        // State
+        let currentView = 'dashboard';
+        let chatHistory = [];
+
+        // Navigation
+        function showView(viewName) {
+            // Hide all views
+            document.querySelectorAll('.view').forEach(view => {
+                view.classList.remove('active');
+            });
+
+            // Show selected view
+            document.getElementById(`view-${viewName}`).classList.add('active');
+
+            // Update nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.view === viewName) {
+                    item.classList.add('active');
+                }
+            });
+
+            currentView = viewName;
+
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+
+            // Initialize view-specific content
+            if (viewName === 'calendar') {
+                generateCalendar();
+            }
+        }
+
+        // Sidebar toggle for mobile
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Navigation click handlers
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                showView(item.dataset.view);
+            });
+        });
+
+        // Chat functionality
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            // Add user message
+            addMessage('user', 'You', message);
+            input.value = '';
+
+            // Show loading
+            const loadingMsg = addMessage('ai', 'AgriAI Assistant', 'Thinking...');
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `You are an expert agricultural assistant. Help the user with their farming questions. Be helpful, concise, and practical. User question: ${message}`
+                            }]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                const aiResponse = data.candidates[0].content.parts[0].text;
+
+                // Remove loading message and add real response
+                loadingMsg.remove();
+                addMessage('ai', 'AgriAI Assistant', aiResponse);
+
+            } catch (error) {
+                loadingMsg.remove();
+                addMessage('ai', 'AgriAI Assistant', 'Sorry, I encountered an error. Please check your API key and try again.');
+            }
+        }
+
+        function addMessage(type, sender, text) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            messageDiv.innerHTML = `
+                <div class="message-avatar ${type}">${type === 'ai' ? '🤖' : '👤'}</div>
+                <div class="message-content">
+                    <div class="message-sender">${sender}</div>
+                    <div class="message-text">${text}</div>
+                </div>
+            `;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            return messageDiv;
+        }
+
+        // Enter key to send message
+        document.getElementById('chatInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Calendar generation
+        function generateCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            days.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.style.cssText = 'text-align: center; font-weight: 600; font-size: 12px; color: var(--text-secondary); padding: 8px;';
+                dayHeader.textContent = day;
+                grid.appendChild(dayHeader);
+            });
+
+            const today = new Date();
+            const firstDay = new Date(today.getFullYear(), today.getMonth(), 1).getDay();
+            const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+
+            // Empty cells before first day
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                grid.appendChild(emptyDay);
+            }
+
+            // Days of the month
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayCell = document.createElement('div');
+                dayCell.className = 'calendar-day';
+                if (i === today.getDate()) {
+                    dayCell.classList.add('today');
+                }
+                // Add event indicator for some days
+                if ([5, 12, 18, 25].includes(i)) {
+                    dayCell.classList.add('has-event');
+                }
+                dayCell.textContent = i;
+                grid.appendChild(dayCell);
+            }
+        }
+
+        // Toggle switches
+        document.querySelectorAll('.toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                toggle.classList.toggle('active');
+            });
+        });
+
+        // Filter chips
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+            });
+        });
+
+        // Initialize calendar on page load
+        generateCalendar();
+
+        // Add some sample tasks completion functionality
+        document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('click', () => {
+                checkbox.classList.toggle('completed');
+            });
+        });
+
+        console.log('AgriAI initialized successfully!');
+    </script>
+</body>
+</html>
+
+
 
 
